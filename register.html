@@ -23,7 +23,7 @@
         form {
             display: flex;
             flex-direction: column;
-            width: 300px;
+            width: 320px;
             padding: 30px;
             border-radius: 15px;
             background-color: rgb(121, 183, 241);
@@ -45,7 +45,8 @@
             align-self: center;
             border: 0;
             border-radius: 6px;
-            background-color: rgb(41, 41, 41);;
+            background-color: rgb(41, 41, 41);
+            ;
             color: white;
             transition: transform 0.3s ease, background-color 0.3s ease;
             margin-top: 5px;
@@ -66,7 +67,6 @@
 
     <form>
         <h2>Register</h2>
-        <div id="error" class="error"></div>
         <input type="email" id="email" placeholder="Email" required>
         <input type="text" id="firstName" placeholder="First Name" required>
         <input type="text" id="lastName" placeholder="Last Name" required>
@@ -83,27 +83,26 @@
             const lastName = document.getElementById('lastName').value;
             const password = document.getElementById('password').value;
             const phoneNumber = document.getElementById('phoneNumber').value;
-            const error = document.getElementById('error');
 
             if (!email.includes('@') || !email.includes('.')) {
-                error.textContent = 'Invalid Email Address';
+                alert('Invalid Email Address');
                 return;
             }
 
             if (!/^[a-zA-Z]+$/.test(firstName) || firstName.length < 2) {
-                error.textContent = 'Invalid First Name';
+                alert('Invalid First Name');
                 return;
             }
             if (!/^[a-zA-Z]+$/.test(lastName) || lastName.length < 2) {
-                error.textContent = 'Invalid Last Name';
+                alert('Invalid Last Name');
                 return;
             }
             if (password.length < 6) {
-                error.textContent = 'Password must be at least 6 characters long';
+                alert('Password must be at least 6 characters long');
                 return;
             }
             if (!/^\d{10}$/.test(phoneNumber)) {
-                error.textContent = 'Phone Number must be exactly 10 digits long';
+                alert('Phone Number must be exactly 10 digits long');
                 return;
             }
 
@@ -112,7 +111,7 @@
                 alert('Email already registered');
                 return;
             }
-
+        
             users.push({ email, firstName, lastName, password, phoneNumber });
             localStorage.setItem('users', JSON.stringify(users));
             localStorage.setItem('session', email);
