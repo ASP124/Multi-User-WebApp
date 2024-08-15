@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: rgb(203, 228, 227);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            padding: 30px;
+            border-radius: 15px;
+            background-color: rgb(121, 183, 241);
+        }
+
+        input {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 150px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            align-self: center;
+            background-color: black;
+            color: white;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: rgb(30, 30, 30);
+        }
+
+        .error {
+            color: red;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form>
+        <h2>Register</h2>
+        <div id="error" class="error"></div>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="text" id="firstName" placeholder="First Name" required>
+        <input type="text" id="lastName" placeholder="Last Name" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <input type="text" id="phoneNumber" placeholder="Phone Number" required>
+        <button type="button" onclick="register()">Register</button>
+    </form>
+
+    <script>
+        function register() {
+            const email = document.getElementById('email').value;
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const password = document.getElementById('password').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const error = document.getElementById('error');
+
+            if (!email.includes('@') || !email.includes('.')) {
+                error.textContent = 'Invalid Email Address';
+                return;
+            }
+
+            if (!/^[a-zA-Z]+$/.test(firstName) || firstName.length < 2) {
+                error.textContent = 'Invalid First Name';
+                return;
+            }
+            if (!/^[a-zA-Z]+$/.test(lastName) || lastName.length < 2) {
+                error.textContent = 'Invalid Last Name';
+                return;
+            }
+            if (password.length < 6) {
+                error.textContent = 'Password must be at least 6 characters long';
+                return;
+            }
+            if (!/^\d{10}$/.test(phoneNumber)) {
+                error.textContent = 'Phone Number must be exactly 10 digits long';
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            if (users.some(user => user.email === email)) {
+                alert('Email already registered');
+                return;
+            }
+
+            users.push({ email, firstName, lastName, password, phoneNumber });
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('session', email);
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+
+</html>
